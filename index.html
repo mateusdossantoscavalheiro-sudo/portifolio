@@ -37,6 +37,91 @@
             perspective: 1000px;
         }
 
+        /* Container da Bandeira Animada */
+        .flag-display-container {
+            height: 160px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 20px;
+            background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+            perspective: 1000px;
+        }
+
+        .big-flag {
+            font-size: 6rem;
+            position: relative;
+            display: inline-block;
+            filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4));
+            /* O segredo: Um gradiente que simula as dobras do tecido */
+            mask-image: linear-gradient(to right, #000 85%, transparent);
+            animation: fabricWave 2s ease-in-out infinite alternate;
+        }
+
+        /* Pseudo-elemento para criar as sombras das dobras */
+        .big-flag::after {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            /* Gradiente que cria o efeito de "luz e sombra" nas dobras */
+            background: linear-gradient(
+                -45deg,
+                rgba(255,255,255,0) 0%,
+                rgba(255,255,255,0.3) 25%,
+                rgba(0,0,0,0.2) 50%,
+                rgba(255,255,255,0.3) 75%,
+                rgba(255,255,255,0) 100%
+            );
+            background-size: 200% 200%;
+            mix-blend-mode: overlay;
+            animation: shadowMove 2s ease-in-out infinite alternate;
+        }
+
+        /* Animação da forma da bandeira (ela encolhe e estica levemente) */
+        @keyframes fabricWave {
+            from { transform: rotateX(10deg) rotateY(-10deg) skewY(-2deg) scale(1); }
+            to { transform: rotateX(-5deg) rotateY(10deg) skewY(2deg) scale(1.05); }
+        }
+
+        /* Animação da luz passando pelas dobras */
+        @keyframes shadowMove {
+            from { background-position: 0% 0%; }
+            to { background-position: 100% 100%; }
+        }
+
+        /* Modernização dos Botões de Idioma */
+        .lang-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* Dois botões por linha */
+            gap: 12px;
+        }
+
+        .lang-btn {
+            background: var(--bot-msg-bg);
+            border: 2px solid transparent;
+            color: var(--text-color);
+            padding: 15px;
+            border-radius: 16px;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            transition: 0.3s;
+            font-weight: 600;
+        }
+
+        .lang-btn:hover {
+            border-color: var(--header-color);
+            transform: translateY(-3px);
+            background: var(--header-color);
+            color: white;
+        }
+
+        .lang-btn .fi {
+            font-size: 1.5rem;
+        }
+
         #main-logo {
             width: 100%;
             height: 100%;
@@ -122,14 +207,19 @@
 </div>
 
 <div id="lang-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 400px;">
+    <div class="modal-content" style="max-width: 450px;">
         <button class="close-modal" onclick="closeAllModals()"><i class="fa-solid fa-xmark"></i></button>
-        <h3 data-i18n="langTitle" style="margin-top: 0;">Selecione o idioma</h3>
-        <div style="display: flex; flex-direction: column; gap: 10px; margin-top: 20px;">
-            <button class="opt-btn" onclick="changeLanguage('pt')"><span class="fi fi-br"></span> Português</button>
-            <button class="opt-btn" onclick="changeLanguage('en')"><span class="fi fi-us"></span> English</button>
-            <button class="opt-btn" onclick="changeLanguage('es')"><span class="fi fi-es"></span> Español</button>
-            <button class="opt-btn" onclick="changeLanguage('de')"><span class="fi fi-de"></span> Deutsch</button>
+        <h3 data-i18n="langTitle" style="margin-top: 0; text-align: center;">Selecione o idioma</h3>
+
+        <div class="flag-display-container">
+            <span id="animated-flag" class="fi fi-br big-flag"></span>
+        </div>
+
+        <div class="lang-grid">
+            <button class="lang-btn" onclick="changeLanguage('pt')"><span class="fi fi-br"></span> Português</button>
+            <button class="lang-btn" onclick="changeLanguage('en')"><span class="fi fi-us"></span> English</button>
+            <button class="lang-btn" onclick="changeLanguage('es')"><span class="fi fi-es"></span> Español</button>
+            <button class="lang-btn" onclick="changeLanguage('de')"><span class="fi fi-de"></span> Deutsch</button>
         </div>
     </div>
 </div>
@@ -324,6 +414,10 @@
 
     function changeLanguage(lang) {
         currentLang = lang;
+        // Atualiza a bandeira animada no topo do modal
+        const flagMap = { pt: 'br', en: 'us', es: 'es', de: 'de' };
+        document.getElementById('animated-flag').className = `fi fi-${flagMap[lang]} big-flag`;
+
         updateUI();
         renderCards();
         const box = document.getElementById("chat-box");
