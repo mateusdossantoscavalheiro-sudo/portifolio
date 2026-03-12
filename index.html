@@ -290,7 +290,7 @@
     // --- DATABASE DE PROJETOS ---
     const projectsData = [
         {
-            id: "motor",
+            id: "engine_monitoring",
             date: "Fev. 2026",
             statusKey: "statusComplete",
             icon: "fa-microchip",
@@ -304,25 +304,25 @@
         },
 
         {
-            id: "novo_projeto", // Um ID único sem espaços
+            id: "nexus_automation_system",
             date: "Mar. 2026",
-            statusKey: "statusComplete", // Ou crie uma nova chave no dicionário
-            icon: "fa-code", // Escolha um ícone em fontawesome.com
+            statusKey: "statusIncomplete",
+            icon: "fa-network-wired", // Icons from fontawesome.com
             github: "https://github.com/mateusdossantoscavalheiro-sudo/Nexus_Project",
             pdf: "./assets/seu_projeto/documento.pdf",
             media: { type: "image", src: "./assets/seu_projeto/capa.png" },
-            pt: { title: "Título em Português", subtitle: "Categoria do Projeto", platform: "Tecnologias Usadas", desc: "Descrição detalhada do que você fez e os resultados alcançados." },
-            en: { title: "English Title", subtitle: "Project Category", platform: "Tech Stack", desc: "Detailed description of what you developed and the outcomes." },
-            es: { title: "Título en Español", subtitle: "Categoría", platform: "Tecnologías", desc: "Descripción detallada de lo que hiciste." },
-            de: { title: "Titel auf Deutsch", subtitle: "Kategorie", platform: "Technologien", desc: "Detaillierte Beschreibung Ihrer Arbeit." }
+            pt: { title: "Automação Nexus", subtitle: "Sistema Completo de Automação Industrial", platform: "C++, Java, JS", desc: "Muito mais que um projeto de sensores, o Nexus é a recriação fiel de um ambiente de automação fabril. O projeto une a precisão da eletrônica embarcada com a escalabilidade do software empresarial, garantindo integridade de dados do sensor ao banco de dados." },
+            en: { title: "Nexus Automation", title: "Nexus Automation", subtitle: "Complete Industrial Automation System", platform: "C++, Java, JS", desc: "Far more than a simple sensor project, Nexus is a faithful recreation of a factory automation environment. It merges the precision of embedded electronics with enterprise software scalability, ensuring data integrity from the sensor to the database." },
+            es: { title: "Automatización Nexus", subtitle: "Sistema Completo de Automatización Industrial", platform: "C++, Java, JS", desc: "Mucho más que un simple proyecto de sensores, Nexus es la recreación fiel de un entorno de automatización fabril. El proyecto une la precisión de la electrónica embebida con la escalabilidad del software empresarial, garantizando la integridad de los datos desde el sensor hasta la base de datos." },
+            de: { title: "Nexus-Automatisierung", subtitle: "Vollständiges industrielles Automatisierungssystem", platform: "C++, Java, JS", desc: "Weit mehr als ein einfaches Sensorprojekt ist Nexus eine originalgetreue Nachbildung einer Fabrikautomatisierungsumgebung. Das Projekt vereint die Präzision eingebetteter Elektronik mit der Skalierbarkeit von Unternehmenssoftware und gewährleistet die Datenintegrität vom Sensor bis zur Datenbank." }
         }
     ];
 
     const uiStrings = {
-        pt: { menu: "Menu", headerTitle: "Mateus | Product Designer & Dev", sidebarProjects: "PROJETOS", welcomeMsg: "Olá! Como posso te ajudar a conhecer melhor o trabalho do Mateus?", btnSkills: "Habilidades", btnProjects: "Projetos", btnContact: "Contato", langTitle: "Selecione o idioma", contactTitle: "Vamos conversar?", dateLabel: "Criado em:", statusLabel: "Status:", platformLabel: "Plataforma:", statusComplete: "Completo", actionLabel: "Acesse o projeto:", skillAnswer: "O Mateus foca em UI/UX Design e Desenvolvimento Frontend (React, HTML, CSS)." },
-        en: { menu: "Menu", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROJECTS", welcomeMsg: "Hi! How can I help you know more about Mateus' work?", btnSkills: "Skills", btnProjects: "Projects", btnContact: "Contact", langTitle: "Select language", contactTitle: "Let's talk?", dateLabel: "Created on:", statusLabel: "Status:", platformLabel: "Platform:", statusComplete: "Complete", actionLabel: "Access the project:", skillAnswer: "Mateus focuses on UI/UX Design and Frontend Development (React, HTML, CSS)." },
-        es: { menu: "Menú", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROYECTOS", welcomeMsg: "¡Hola! ¿Cómo puedo ayudarte a conocer el trabajo de Mateus?", btnSkills: "Habilidades", btnProjects: "Proyectos", btnContact: "Contacto", langTitle: "Seleccionar idioma", contactTitle: "¿Hablamos?", dateLabel: "Creado en:", statusLabel: "Estado:", platformLabel: "Plataforma:", statusComplete: "Completo", actionLabel: "Acceder al proyecto:", skillAnswer: "Mateus se enfoca en el diseño UI/UX y el desarrollo Frontend." },
-        de: { menu: "Menü", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROJEKTE", welcomeMsg: "Hallo! Wie kann ich Ihnen helfen, Mateus' Arbeit kennenzulernen?", btnSkills: "Fähigkeiten", btnProjects: "Projekte", btnContact: "Kontakt", langTitle: "Sprache auswählen", contactTitle: "Reden wir?", dateLabel: "Erstellt am:", statusLabel: "Status:", platformLabel: "Plattform:", statusComplete: "Vollständig", actionLabel: "Projekt aufrufen:", skillAnswer: "Mateus konzentriert sich auf UI/UX-Design und Frontend-Entwicklung." }
+        pt: { menu: "Menu", headerTitle: "Mateus | Product Designer & Dev", sidebarProjects: "PROJETOS", welcomeMsg: "Olá! Como posso te ajudar a conhecer melhor o trabalho do Mateus?", btnSkills: "Habilidades", btnProjects: "Projetos", btnContact: "Contato", langTitle: "Selecione o idioma", contactTitle: "Vamos conversar?", dateLabel: "Criado em:", statusLabel: "Status:", platformLabel: "Plataforma:", statusComplete: "Completo", statusIncomplete: "Em desenvolvimento", actionLabel: "Acesse o projeto:", skillAnswer: "O Mateus foca em UI/UX Design e Desenvolvimento Frontend (React, HTML, CSS)." },
+        en: { menu: "Menu", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROJECTS", welcomeMsg: "Hi! How can I help you know more about Mateus' work?", btnSkills: "Skills", btnProjects: "Projects", btnContact: "Contact", langTitle: "Select language", contactTitle: "Let's talk?", dateLabel: "Created on:", statusLabel: "Status:", platformLabel: "Platform:", statusComplete: "Complete", statusIncomplete: "Under Development", actionLabel: "Access the project:", skillAnswer: "Mateus focuses on UI/UX Design and Frontend Development (React, HTML, CSS)." },
+        es: { menu: "Menú", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROYECTOS", welcomeMsg: "¡Hola! ¿Cómo puedo ayudarte a conocer el trabajo de Mateus?", btnSkills: "Habilidades", btnProjects: "Proyectos", btnContact: "Contacto", langTitle: "Seleccionar idioma", contactTitle: "¿Hablamos?", dateLabel: "Creado en:", statusLabel: "Estado:", platformLabel: "Plataforma:", statusComplete: "Completo", statusIncomplete: "En desarrollo", actionLabel: "Acceder al proyecto:", skillAnswer: "Mateus se enfoca en el diseño UI/UX y el desarrollo Frontend." },
+        de: { menu: "Menü", headerTitle: "Mateus | Designer & Dev", sidebarProjects: "PROJEKTE", welcomeMsg: "Hallo! Wie kann ich Ihnen helfen, Mateus' Arbeit kennenzulernen?", btnSkills: "Fähigkeiten", btnProjects: "Projekte", btnContact: "Kontakt", langTitle: "Sprache auswählen", contactTitle: "Reden wir?", dateLabel: "Erstellt am:", statusLabel: "Status:", platformLabel: "Plattform:", statusComplete: "Vollständig", statusIncomplete: "In Entwicklung", actionLabel: "Projekt aufrufen:", skillAnswer: "Mateus konzentriert sich auf UI/UX-Design und Frontend-Entwicklung." }
     };
 
     let currentLang = 'pt';
