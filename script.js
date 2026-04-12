@@ -18,7 +18,7 @@ const projectsData = [
         statusKey: "statusIncomplete",
         icon: "fa-network-wired",
         github: "https://github.com/mateusdossantoscavalheiro-sudo/Axophy",
-<<<<<<< HEAD
+
         pdf: "./assets/axophy/axophy-doc.pdf",
         media: {
             type: "image",
@@ -49,14 +49,14 @@ const projectsData = [
             platform: "Java, C++, JS (MQTT & Supabase)",
             desc: "Axophy ist ein von neuraler Architektur inspiriertes Überwachungsökosystem, das als zentrales Nervensystem für Industrieanlagen konzipiert wurde. Das Projekt stellt die Neuerfindung und technische Konsolidierung des Voltaphylax-Protokolls und do internen Nexus-Projekts dar. Es integriert hochpräzise Telemetrie über MQTT, Cloud-Persistenz und dynamische HMI-Schnittstellen, um die Integrität elektromechanischer Anlagen zu gewährleisten."
         }
-=======
+
         pdf: "./assets/axophy/documento_tecnico.pdf",
         media: { type: "image", src: ["./assets/axophy/miniature_p1.png", "./assets/axophy/miniature_p2.png", "./assets/axophy/miniature_p3.png"], interval: 3000 },
         pt: { title: "Ecossistema Axophy", subtitle: "Monitoramento Neural e Telemetria Industrial IIoT", platform: "Java, C++, JavaScript (MQTT & Supabase)", desc: "O Axophy é um ecossistema de supervisão inspirado na arquitetura neural..." },
         en: { title: "Axophy Ecosystem", subtitle: "Neural Monitoring & Industrial IIoT Telemetry", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy is a supervision ecosystem inspired by neural architecture..." },
         es: { title: "Ecosistema Axophy", subtitle: "Monitoreo Neural y Telemetría Industrial IIoT", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy es un ecosistema de supervisión inspirado en la arquitectura neural..." },
         de: { title: "Axophy-Ökosystem", subtitle: "Neurale Überwachung & Industrielle IIoT-Telemetrie", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy ist ein von neuraler Architektur inspiriertes Überwachungsökosystem..." }
->>>>>>> parent of 4fbd4e4 (Update script.js)
+
     }
 ];
 
@@ -149,9 +149,16 @@ function openProject(id) {
     } else {
         mediaBox.innerHTML = p.media.type === "video" ? `<video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${p.media.src}" type="video/mp4"></video>` : `<img src="${p.media.src}" style="width:100%; height:100%; object-fit:cover;">`;
     }
+    // Set the GitHub link
     document.getElementById('modal-github').href = p.github;
-    document.getElementById('modal-pdf').href = `viewer.html?file=${encodeURIComponent(p.pdf)}`;
+
+    // Point directly to the PDF file (removing viewer.html)
+    document.getElementById('modal-pdf').href = p.pdf;
+
+    // Ensure it opens in a new tab
     document.getElementById('modal-pdf').target = "_blank";
+
+    // Open the modal
     openModal('project-modal');
 }
 
