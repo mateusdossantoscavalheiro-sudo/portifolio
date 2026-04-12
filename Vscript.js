@@ -4,19 +4,19 @@ pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs
 const container = document.getElementById('pdf-render-container');
 const params = new URLSearchParams(window.location.search);
 const fileUrl = params.get('file');
-
-let pdfDoc = null;
-let currentLang = 'pt';
+const fileNameDisplay = document.getElementById('file-name');
 
 if (fileUrl) {
-    document.getElementById('file-name').innerText = fileUrl.split('/').pop();
+    fileNameDisplay.innerText = fileUrl.split('/').pop();
     loadAndRenderPDF(fileUrl);
+} else {
+    fileNameDisplay.innerText = "Nenhum arquivo encontrado. Feche a aba e tente novamente.";
 }
 
 async function loadAndRenderPDF(url) {
     try {
         const loadingTask = pdfjsLib.getDocument(url);
-        pdfDoc = await loadingTask.promise;
+        const pdfDoc = await loadingTask.promise;
 
         for (let i = 1; i <= pdfDoc.numPages; i++) {
             const page = await pdfDoc.getPage(i);
@@ -24,7 +24,8 @@ async function loadAndRenderPDF(url) {
 
             const pageWrapper = document.createElement('div');
             pageWrapper.className = 'page-wrapper';
-            pageWrapper.style.cssText = `position: relative; margin-bottom: 30px; width: ${viewport.width}px;`;
+            pageWrapper.style.width = `${viewport.width}px`;
+            pageWrapper.style.height = `${viewport.height}px`;
             container.appendChild(pageWrapper);
 
             const canvas = document.createElement('canvas');
@@ -32,102 +33,74 @@ async function loadAndRenderPDF(url) {
             canvas.height = viewport.height;
             canvas.width = viewport.width;
             pageWrapper.appendChild(canvas);
+
             await page.render({ canvasContext: context, viewport: viewport }).promise;
 
             const textContent = await page.getTextContent();
             renderTextLayer(pageWrapper, textContent, viewport);
         }
     } catch (error) {
-        console.error("Erro:", error);
+        console.error("Erro Crítico:", error);
+        fileNameDisplay.innerText = "Falha ao processar o documento técnico.";
     }
 }
 
 function renderTextLayer(container, textContent, viewport) {
     const textLayer = document.createElement('div');
     textLayer.className = 'text-layer';
-    textLayer.style.cssText = `position: absolute; left: 0; top: 0; width: 100%; height: 100%; pointer-events: none;`;
 
     textContent.items.forEach(item => {
         const span = document.createElement('span');
-        span.innerText = item.str;
         const tx = pdfjsLib.Util.transform(viewport.transform, item.transform);
 
-        span.style.cssText = `
-            position: absolute;
-            left: ${tx[4]}px;
-            top: ${tx[5]}px;
-            font-size: ${item.height * viewport.scale}px;
-            font-family: sans-serif;
-            white-space: pre;
-            color: transparent; //original text turns invisible
-            background: rgba(255,255,255,0.8); // background to block canvas text
-            padding: 0 2px;
-        `;
-        span.setAttribute('data-original', item.str);
+        // position
+        span.style.left = `${tx[4]}px`;
+        span.style.top = `${tx[5] - (item.height * viewport.scale)}px`;
+        span.style.fontSize = `${item.height * viewport.scale}px`;
+        span.style.fontFamily = item.fontName || 'sans-serif';
+
+        span.innerText = item.str;
         textLayer.appendChild(span);
     });
 
     container.appendChild(textLayer);
 }
 
-// Translate logic
-async function translateTo(lang) {
-    if (lang === currentLang) return;
+// api google config
+function googleTranslateElementInit() {
+    new google.translate.TranslateElement({
+        pageLanguage: 'pt',
+        includedLanguages: 'pt,en,es,de',
+        autoDisplay: false
+    }, 'google_translate_element');
+}
 
-    const btnDownload = document.getElementById('download-btn');
-    btnDownload.innerText = "Traduzindo...";
-    btnDownload.disabled = true;
+// change the language
+function triggerTranslation(langCode) {
+    const select = document.querySelector('.goog-te-combo');
 
-    const spans = document.querySelectorAll('.text-layer span');
+    if (select) {
+        select.value = langCode;
+        select.dispatchEvent(new Event('change'));
 
-    for (let span of spans) {
-        const originalText = span.getAttribute('data-original');
-        if (!originalText.trim() || !isNaN(originalText)) continue;
-
-        try {
-            // MyMemory API
-            const response = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(originalText)}&langpair=${currentLang}|${lang}`);
-            const data = await response.json();
-
-            span.innerText = data.responseData.translatedText;
-            span.style.color = '#000'; // turns translated text visible
-        } catch (err) {
-            console.error("Falha na tradução de um bloco.");
+        // active css class
+        if (langCode !== 'pt') {
+            document.body.classList.add('translated-active');
+        } else {
+            document.body.classList.remove('translated-active');
         }
     }
-
-    currentLang = lang;
-    btnDownload.innerText = "Download PDF";
-    btnDownload.disabled = false;
 }
 
-// download logic
-async function downloadTranslated() {
-    const { jsPDF } = window.jspdf;
-    const pdf = new jsPDF('p', 'pt', 'a4');
-    const pages = document.querySelectorAll('.page-wrapper');
-
-    for (let i = 0; i < pages.length; i++) {
-        const canvas = await html2canvas(pages[i], { scale: 2 });
-        const imgData = canvas.toDataURL('image/jpeg', 0.95);
-
-        const pdfWidth = pdf.internal.pageSize.getWidth();
-        const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-
-        if (i > 0) pdf.addPage();
-        pdf.addImage(imgData, 'JPEG', 0, 0, pdfWidth, pdfHeight);
-    }
-
-    pdf.save(`traduzido_${currentLang}.pdf`);
-}
-
-// Event Listeners language buttons
+// custom buttons clicks
 document.querySelectorAll('.btn-lang').forEach(btn => {
-    btn.onclick = () => {
+    btn.addEventListener('click', () => {
+        // update interface
         document.querySelectorAll('.btn-lang').forEach(b => b.classList.remove('active'));
         btn.classList.add('active');
-        translateTo(btn.getAttribute('data-lang'));
-    };
-});
 
-document.getElementById('download-btn').onclick = downloadTranslated;
+        // shots the translate
+        const lang = btn.getAttribute('data-lang');
+        triggerTranslation(lang);
+    });
+});

@@ -42,7 +42,7 @@ const projectsData = [
         statusKey: "statusIncomplete",
         icon: "fa-network-wired",
         github: "https://github.com/mateusdossantoscavalheiro-sudo/Axophy",
-        pdf: "./assets/axophy/documento_tecnico.pdf",
+        pdf: "./assets/axophy/axophy-doc.pdf",
         media: {
             type: "image",
             src: ["./assets/axophy/miniature_p1.png", "./assets/axophy/miniature_p2.png", "./assets/axophy/miniature_p3.png"],
