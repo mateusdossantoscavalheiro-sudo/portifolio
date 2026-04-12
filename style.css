@@ -9,32 +9,44 @@ body.dark-mode {
 
 body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color: var(--text-color); height: 100vh; margin: 0; overflow: hidden; display: flex; transition: all 0.3s ease; }
 
-.main-wrapper { display: flex; flex-direction: column; width: 100%; }
-
 /* HEADER */
 .chat-header { background: var(--header-color); color: white; padding: 12px 25px; display: flex; align-items: center; justify-content: space-between; box-shadow: 0 2px 10px rgba(0,0,0,0.1); z-index: 100; }
 .header-left, .header-right { display: flex; align-items: center; gap: 15px; }
 .menu-btn, .header-icon-btn { background: rgba(255,255,255,0.1); border: none; color: white; padding: 8px 15px; border-radius: 20px; cursor: pointer; display: flex; align-items: center; gap: 8px; font-size: 0.9rem; }
 
-.logo-wrapper { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-#main-logo { width: 100%; height: 100%; object-fit: contain; transition: 0.5s; }
+/* LOGO */
+.logo-wrapper { width: 38px; height: 38px; display: flex; align-items: center; justify-content: center; cursor: pointer; perspective: 1000px; }
+#main-logo { width: 100%; height: 100%; object-fit: contain; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+body:not(.dark-mode) #main-logo { filter: brightness(0) invert(1) opacity(0.9); }
 .logo-wrapper:hover #main-logo { transform: scale(1.15) rotate(12deg); }
 
-/* SIDEBAR & CARDS */
+/* FLAG ANIMATION */
+.flag-display-container { height: 160px; display: flex; justify-content: center; align-items: center; margin-bottom: 20px; background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%); perspective: 1000px; }
+.big-flag { font-size: 6rem; position: relative; display: inline-block; filter: drop-shadow(0 15px 25px rgba(0,0,0,0.4)); mask-image: linear-gradient(to right, #000 85%, transparent); animation: fabricWave 2s ease-in-out infinite alternate; }
+.big-flag::after { content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(-45deg, rgba(255,255,255,0) 0%, rgba(255,255,255,0.3) 25%, rgba(0,0,0,0.2) 50%, rgba(255,255,255,0.3) 75%, rgba(255,255,255,0) 100%); background-size: 200% 200%; mix-blend-mode: overlay; animation: shadowMove 2s ease-in-out infinite alternate; }
+
+@keyframes fabricWave { from { transform: rotateX(10deg) rotateY(-10deg) skewY(-2deg) scale(1); } to { transform: rotateX(-5deg) rotateY(10deg) skewY(2deg) scale(1.05); } }
+@keyframes shadowMove { from { background-position: 0% 0%; } to { background-position: 100% 100%; } }
+
+/* UI COMPONENTS */
+.lang-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+.lang-btn { background: var(--bot-msg-bg); border: 2px solid transparent; color: var(--text-color); padding: 15px; border-radius: 16px; cursor: pointer; display: flex; flex-direction: column; align-items: center; gap: 8px; transition: 0.3s; font-weight: 600; }
+.lang-btn:hover { border-color: var(--header-color); transform: translateY(-3px); background: var(--header-color); color: white; }
+.lang-btn .fi { font-size: 1.5rem; }
+
 .layout-wrapper { display: flex; width: 100%; height: calc(100vh - 58px); }
 .sidebar { width: 320px; background: var(--bg-sidebar); transition: 0.4s; padding: 20px; box-sizing: border-box; border-right: 1px solid rgba(0,0,0,0.05); overflow-y: auto; }
 .sidebar.collapsed { width: 0; padding: 0; opacity: 0; pointer-events: none; }
-.sidebar h4 { opacity: 0.5; font-size: 0.7rem; letter-spacing: 2px; margin-bottom: 20px; margin-top: 0; }
 
 .project-card { background: var(--bg-chat); border-radius: 16px; padding: 15px; margin-bottom: 12px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 12px; border: 1px solid rgba(0,0,0,0.05); }
 .project-card:hover { transform: translateY(-3px); background: var(--header-color); color: white; }
 .project-thumb-mini { width: 45px; height: 45px; background: var(--bot-msg-bg); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.2rem; }
 
-/* CHAT AREA */
 .chat-container { flex: 1; background: var(--bg-chat); display: flex; flex-direction: column; position: relative; }
 .chat-box { flex: 1; padding: 30px; overflow-y: auto; display: flex; flex-direction: column; gap: 15px; }
 .message { padding: 14px 18px; border-radius: 18px; max-width: 70%; line-height: 1.5; animation: fadeIn 0.3s ease; }
 .bot-msg { background: var(--bot-msg-bg); align-self: flex-start; border-bottom-left-radius: 4px; }
+.user-msg { background: var(--header-color); color: white; align-self: flex-end; border-bottom-right-radius: 4px; }
 .options { padding: 20px; display: flex; gap: 10px; justify-content: center; border-top: 1px solid rgba(0,0,0,0.05); }
 
 /* MODALS */
@@ -45,9 +57,12 @@ body { font-family: 'Inter', sans-serif; background-color: var(--bg-body); color
 .project-grid { display: flex; gap: 30px; }
 .project-left { flex: 1; }
 .project-right { flex: 1.2; }
-.divider { width: 1px; background: rgba(128,128,128,0.2); }
 .miniature-display { width: 100%; height: 220px; background: var(--bot-msg-bg); border-radius: 15px; overflow: hidden; display: flex; align-items: center; justify-content: center; border: 1px solid rgba(128,128,128,0.2); }
-.miniature-display img { width: 100%; height: 100%; object-fit: cover; }
+.miniature-display img, .miniature-display video { width: 100%; height: 100%; object-fit: cover; }
+
+.list-item { display: flex; align-items: center; gap: 15px; padding: 12px; border-radius: 15px; background: var(--bot-msg-bg); text-decoration: none; color: var(--text-color); margin-bottom: 10px; transition: 0.2s; border: 1px solid rgba(128,128,128,0.05); }
+.list-item:hover { background: var(--header-color); color: white; transform: translateY(-2px); }
+.list-item i { font-size: 1.2rem; width: 20px; text-align: center; }
 
 .opt-btn { background: transparent; border: 1.5px solid var(--header-color); color: var(--header-color); padding: 8px 20px; border-radius: 20px; cursor: pointer; font-weight: 500; font-size: 0.85rem; text-decoration: none; display: inline-flex; align-items: center; gap: 8px; }
 .opt-btn:hover { background: var(--header-color); color: white; }
