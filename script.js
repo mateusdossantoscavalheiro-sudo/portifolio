@@ -165,7 +165,8 @@ function openProject(id) {
         mediaBox.innerHTML = p.media.type === "video" ? `<video autoplay muted loop playsinline style="width:100%; height:100%; object-fit:cover;"><source src="${p.media.src}" type="video/mp4"></video>` : `<img src="${p.media.src}" style="width:100%; height:100%; object-fit:cover;">`;
     }
     document.getElementById('modal-github').href = p.github;
-    document.getElementById('modal-pdf').href = p.pdf;
+    document.getElementById('modal-pdf').href = `viewer.html?file=${encodeURIComponent(p.pdf)}`;
+    document.getElementById('modal-pdf').target = "_blank";
     openModal('project-modal');
 }
 

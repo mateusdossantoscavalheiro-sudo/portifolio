@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visualizador de Documentos | Mateus</title>
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/lipis/flag-icons@7.2.3/css/flag-icons.min.css">
+    <link rel="stylesheet" href="viewer.css">
+</head>
+<body>
+
+<header class="toolbar">
+    <div class="lang-group">
+        <button class="btn-lang active" data-lang="pt"><span class="fi fi-br"></span> PT</button>
+        <button class="btn-lang" data-lang="en"><span class="fi fi-us"></span> EN</button>
+        <button class="btn-lang" data-lang="es"><span class="fi fi-es"></span> ES</button>
+        <button class="btn-lang" data-lang="de"><span class="fi fi-de"></span> DE</button>
+        <div class="divider"></div>
+        <select id="extra-langs" class="select-lang">
+            <option value="">Outros idiomas...</option>
+            <option value="fr">Français</option>
+            <option value="it">Italiano</option>
+        </select>
+    </div>
+
+    <div id="file-name" class="title">Carregando...</div>
+
+    <button id="download-btn" class="btn-download">
+        <i class="fa-solid fa-download"></i> Download Traduzido
+    </button>
+</header>
+
+<main id="pdf-render-container">
+</main>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+<script src="viewer.js"></script>
+</body>
+</html>
