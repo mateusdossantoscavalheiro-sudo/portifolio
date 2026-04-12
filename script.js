@@ -18,6 +18,7 @@ const projectsData = [
         statusKey: "statusIncomplete",
         icon: "fa-network-wired",
         github: "https://github.com/mateusdossantoscavalheiro-sudo/Axophy",
+<<<<<<< HEAD
 
         pdf: "./assets/axophy/axophy-doc.pdf",
         media: {
@@ -50,13 +51,18 @@ const projectsData = [
             desc: "Axophy ist ein von neuraler Architektur inspiriertes Überwachungsökosystem, das als zentrales Nervensystem für Industrieanlagen konzipiert wurde. Das Projekt stellt die Neuerfindung und technische Konsolidierung des Voltaphylax-Protokolls und do internen Nexus-Projekts dar. Es integriert hochpräzise Telemetrie über MQTT, Cloud-Persistenz und dynamische HMI-Schnittstellen, um die Integrität elektromechanischer Anlagen zu gewährleisten."
         }
 
+=======
+>>>>>>> parent of 4fbd4e4 (Update script.js)
         pdf: "./assets/axophy/documento_tecnico.pdf",
         media: { type: "image", src: ["./assets/axophy/miniature_p1.png", "./assets/axophy/miniature_p2.png", "./assets/axophy/miniature_p3.png"], interval: 3000 },
         pt: { title: "Ecossistema Axophy", subtitle: "Monitoramento Neural e Telemetria Industrial IIoT", platform: "Java, C++, JavaScript (MQTT & Supabase)", desc: "O Axophy é um ecossistema de supervisão inspirado na arquitetura neural..." },
         en: { title: "Axophy Ecosystem", subtitle: "Neural Monitoring & Industrial IIoT Telemetry", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy is a supervision ecosystem inspired by neural architecture..." },
         es: { title: "Ecosistema Axophy", subtitle: "Monitoreo Neural y Telemetría Industrial IIoT", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy es un ecosistema de supervisión inspirado en la arquitectura neural..." },
         de: { title: "Axophy-Ökosystem", subtitle: "Neurale Überwachung & Industrielle IIoT-Telemetrie", platform: "Java, C++, JS (MQTT & Supabase)", desc: "Axophy ist ein von neuraler Architektur inspiriertes Überwachungsökosystem..." }
+<<<<<<< HEAD
 
+=======
+>>>>>>> parent of 4fbd4e4 (Update script.js)
     }
 ];
 
