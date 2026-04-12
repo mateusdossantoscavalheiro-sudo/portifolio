@@ -22,22 +22,39 @@ function renderTextLayer(container, textContent, viewport) {
     container.appendChild(textLayer);
 }
 
-// Manually trigger the Google Translate engine
+// Hard trigger for Google Translate engine
 function triggerTranslation(langCode) {
     const select = document.querySelector('.goog-te-combo');
-    
+    const body = document.body;
+
     if (select) {
-        select.value = langCode;
-        // The 'bubbles: true' event is crucial for the Google script to react
-        select.dispatchEvent(new Event('change', { bubbles: true }));
-        
-        // Toggle the visibility class for translated text
+        // Step 1: Force the body to show the translation layer
         if (langCode !== 'pt') {
-            document.body.classList.add('translated-active');
+            body.classList.add('translated-active');
         } else {
-            document.body.classList.remove('translated-active');
+            body.classList.remove('translated-active');
+            // If PT is selected, we show the original canvas text
+            const showOriginalBtn = document.querySelector('.goog-te-banner-frame');
+            if (showOriginalBtn) {
+                // Look for the "Show Original" button inside Google's iframe if it exists
+                const restoreBtn = showOriginalBtn.contentWindow.document.querySelector('#\\:1\\.restore');
+                if (restoreBtn) restoreBtn.click();
+            }
         }
+
+        // Step 2: Update the select value and dispatch the change event
+        select.value = langCode;
+        select.dispatchEvent(new Event('change', { bubbles: true, cancelable: true }));
+
+        // Step 3: Global check to ensure the Google API acknowledges the change
+        setTimeout(() => {
+            if (select.value !== langCode) {
+                select.value = langCode;
+                select.dispatchEvent(new Event('change', { bubbles: true }));
+            }
+        }, 500);
+
     } else {
-        console.warn("Google Translate module hasn't loaded yet.");
+        console.error("Critical: Google Translate widget not found in DOM.");
     }
 }
